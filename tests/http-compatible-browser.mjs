@@ -1,7 +1,7 @@
 import { chromium, expect } from "@playwright/test";
 
 const base = (process.env.CP_BASE_URL || "http://127.0.0.1:5178/").replace(/\/?$/, "/");
-const browser = await chromium.launch({ channel: "msedge", headless: true });
+const browser = await chromium.launch({ channel: "msedge", headless: true, args: ["--no-proxy-server"] });
 const context = await browser.newContext();
 await context.addInitScript(() => {
   Object.defineProperty(globalThis.crypto, "randomUUID", { value: undefined, configurable: true });
