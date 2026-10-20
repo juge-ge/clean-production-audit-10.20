@@ -1,7 +1,8 @@
+import { randomId } from "../services/id.js";
 import { accounts, total } from "./domain.js";
 
 export const clone = (value) => JSON.parse(JSON.stringify(value));
-const uid = () => crypto.randomUUID();
+const uid = () => randomId();
 const validDate = (value) =>
   typeof value === "string" &&
   /^\d{4}-\d{2}-\d{2}$/.test(value) &&

@@ -1,4 +1,6 @@
 <script setup>
+import { randomId } from "../services/id.js";
+
 import { computed, inject, ref, watch, nextTick } from "vue";
 import { useRouter } from "vue-router";
 import { useMessage, useDialog } from "naive-ui";
@@ -159,7 +161,7 @@ function send() {
   if (!input.value.trim() || !editable.value) return;
   const text = input.value.trim();
   f.value.chat.push({
-    id: crypto.randomUUID(),
+    id: randomId(),
     role: "user",
     text,
     at: timestamp(),
@@ -167,7 +169,7 @@ function send() {
   const parsed = parseDemand(text, f.value.constraints);
   f.value.suggestion = parsed.changes.length ? parsed : null;
   f.value.chat.push({
-    id: crypto.randomUUID(),
+    id: randomId(),
     role: "assistant",
     text: parsed.changes.length
       ? `已整理 ${parsed.changes.length} 项约束调整建议。请核对下方变更，确认后重新生成方案；会按获批 V${b.value.version} 的基准数据比较效果。`
@@ -184,7 +186,7 @@ function applySuggestion() {
     )
   ) {
     f.value.chat.push({
-      id: crypto.randomUUID(),
+      id: randomId(),
       role: "assistant",
       text: "企业已确认并应用这次约束变更。",
       at: timestamp(),

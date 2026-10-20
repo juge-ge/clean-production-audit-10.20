@@ -1,4 +1,6 @@
 <script setup>
+import { randomId } from "../services/id.js";
+
 import { computed, ref } from "vue";
 import { useMessage, useDialog } from "naive-ui";
 import { db, session } from "../data/store";
@@ -32,13 +34,13 @@ function newProject() {
 function saveProject(values) {
   if (!rows.value.length) return message.warning('当前筛选范围没有企业');
   if (rows.value.some((row) => row.industry !== values.industry)) return message.warning('请先将样本筛选到项目所属行业，再创建项目');
-  const project = { ...values, id: crypto.randomUUID(), owner: session.user.username, ownerName: session.user.name, at: workspaceTime(), snapshot: industrySnapshot(rows.value, filters), indicators: [], versions: [], reviewNote: '', surveyId: null, publication: { title: '', number: '', effectiveDate: '', source: '' } };
+  const project = { ...values, id: randomId(), owner: session.user.username, ownerName: session.user.name, at: workspaceTime(), snapshot: industrySnapshot(rows.value, filters), indicators: [], versions: [], reviewNote: '', surveyId: null, publication: { title: '', number: '', effectiveDate: '', source: '' } };
   db.localIndicatorProjects.unshift(project);
   selected.value = project.id; version.value = 'draft'; step.value = 'basis';
   message.success('指标建设项目已建立，已固定当前样本');
 }
 function editIndicator(row) {
-  indicator.value = row ? copy(row) : { id: crypto.randomUUID(), field: 'energyIntensity', name: fieldOptions[0].label, unit: fieldOptions[0].unit, formula: fieldOptions[0].formula, direction: 'lower', first: null, second: null, third: null, source: '' };
+  indicator.value = row ? copy(row) : { id: randomId(), field: 'energyIntensity', name: fieldOptions[0].label, unit: fieldOptions[0].unit, formula: fieldOptions[0].formula, direction: 'lower', first: null, second: null, third: null, source: '' };
   indicatorEditor.value = true;
 }
 function saveIndicator(values) {
@@ -67,7 +69,7 @@ const trialRows = computed(() => (working.value?.snapshot.enterprises || []).fla
 function saveVersion() {
   if (!current.value.indicators.length) return message.warning('请至少添加一项候选指标');
   const { versions, ...content } = current.value;
-  versions.push(copy({ ...content, id: crypto.randomUUID(), number: versions.length + 1, at: workspaceTime() }));
+  versions.push(copy({ ...content, id: randomId(), number: versions.length + 1, at: workspaceTime() }));
   message.success('已保存独立论证版本，当前草稿可继续完善');
 }
 </script>

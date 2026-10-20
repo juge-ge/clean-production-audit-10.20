@@ -1,3 +1,4 @@
+import { randomId } from "../services/id.js";
 import { accounts } from "./domain.js";
 import { createSnapshot, upgradeEnterprise } from "./auditWorkflow.js";
 import {
@@ -27,7 +28,7 @@ export function applyApprovedDemo(data) {
     if (data.oaWorkflow.status !== "approved") {
       const snapshot = clone(data.oaWorkflow.draft || createSnapshot(data));
       const v = {
-        id: crypto.randomUUID(),
+        id: randomId(),
         number: data.oaWorkflow.versions.length + 1,
         at,
         snapshot,
@@ -50,7 +51,7 @@ export function applyApprovedDemo(data) {
       data.oaWorkflow.versions.push(v);
       data.oaWorkflow.status = "approved";
       data.oaWorkflow.events.unshift({
-        id: crypto.randomUUID(),
+        id: randomId(),
         at,
         actor: office.name,
         action: "模拟批准填报数据",
@@ -81,7 +82,7 @@ export function applyApprovedDemo(data) {
     const b = baseline(data),
       items = clone([schemeLibrary[0], schemeLibrary[5]]);
     f.selected = {
-      id: crypto.randomUUID(),
+      id: randomId(),
       name: "已批准演示方案组合",
       items,
       metrics: measures(items),
@@ -103,7 +104,7 @@ export function applyApprovedDemo(data) {
       files: [],
     };
     const review = {
-      id: crypto.randomUUID(),
+      id: randomId(),
       revision: 1,
       expert: clone(f.expert),
       content: "已模拟完成方案复核，建议保持计量与运行记录。",
@@ -112,7 +113,7 @@ export function applyApprovedDemo(data) {
     };
     f.expertReviews = [review];
     const p = {
-      id: crypto.randomUUID(),
+      id: randomId(),
       number: 1,
       at,
       plan: clone(f.selected),
@@ -135,7 +136,7 @@ export function applyApprovedDemo(data) {
     };
     f.planVersions = [p];
     f.records = items.map((s) => ({
-      id: crypto.randomUUID(),
+      id: randomId(),
       schemeId: s.id,
       date: "2026-09-15",
       progress: 100,
@@ -165,7 +166,7 @@ export function applyApprovedDemo(data) {
     };
     f.acceptanceVersions = [
       {
-        id: crypto.randomUUID(),
+        id: randomId(),
         number: 1,
         at,
         draft: clone(f.acceptanceDraft),
@@ -188,7 +189,7 @@ export function applyApprovedDemo(data) {
     ];
     f.events = [
       {
-        id: crypto.randomUUID(),
+        id: randomId(),
         at,
         actor: office.name,
         action: "加载全部批准演示",
@@ -200,7 +201,7 @@ export function applyApprovedDemo(data) {
   }
   data.continuousRecords ??= [
     {
-      id: crypto.randomUUID(),
+      id: randomId(),
       period: "2026-09",
       production: 525,
       energy: 195,

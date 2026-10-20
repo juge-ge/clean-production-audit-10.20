@@ -1,4 +1,6 @@
 <script setup>
+import { randomId } from "../services/id.js";
+
 import { ref, computed } from "vue";
 import { useMessage } from "naive-ui";
 import { session } from "../data/store";
@@ -42,7 +44,7 @@ function save() {
   props.data.continuousRecords ??= [];
   props.data.continuousRecords.unshift({
     ...clone(x),
-    id: crypto.randomUUID(),
+    id: randomId(),
     at: timestamp(),
     author: session.user.name,
   });

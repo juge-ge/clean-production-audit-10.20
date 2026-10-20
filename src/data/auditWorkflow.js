@@ -1,8 +1,9 @@
+import { randomId } from "../services/id.js";
 import { accounts, scopedEnterprises, total, intensity } from "./domain.js";
 import { initDelivery } from "./deliveryWorkflow.js";
 
 export const copy = (value) => JSON.parse(JSON.stringify(value));
-const id = () => crypto.randomUUID();
+const id = () => randomId();
 const now = () => new Date().toLocaleString("zh-CN", { hour12: false });
 export const oaSections = [
   { id: "info", name: "企业情况" },

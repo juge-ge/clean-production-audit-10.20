@@ -1,3 +1,4 @@
+import { randomId } from "../services/id.js";
 import { scopedEnterprises } from "./domain.js";
 import { experts } from "./experts.js";
 import { clone, timestamp } from "./deliveryWorkflow.js";
@@ -42,7 +43,7 @@ export function ensureQuestionnaires(db, user) {
   db.industrySurveys ??= [];
   if (!db.industrySurveys.some((s) => s.owner === user.username)) {
     const s = {
-      id: crypto.randomUUID(),
+      id: randomId(),
       title: "2026 年白酒行业清洁生产指标专家调查（示例）",
       industry: "白酒制造",
       deadline: "2026-11-30",
@@ -62,7 +63,7 @@ export function ensureQuestionnaires(db, user) {
     s.responses = s.experts
       .slice(0, 2)
       .map((e, i) => ({
-        id: crypto.randomUUID(),
+        id: randomId(),
         expertId: e.id,
         at: timestamp(),
         recorder: "示例回收",
@@ -126,7 +127,7 @@ export function saveSurvey(db, user, form) {
   } else {
     s = {
       ...clone(form),
-      id: crypto.randomUUID(),
+      id: randomId(),
       owner: user.username,
       ownerName: user.name,
       scopeIds: scopedEnterprises(user).map((e) => e.id),
@@ -165,7 +166,7 @@ export function recordResponse(s, user, expertId, scores) {
   )
     throw Error("每个指标均须填写 0—100 分评分");
   const response = {
-    id: crypto.randomUUID(),
+    id: randomId(),
     expertId,
     scores: clone(scores),
     at: timestamp(),

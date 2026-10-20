@@ -1,4 +1,6 @@
 <script setup>
+import { randomId } from "../services/id.js";
+
 import { computed, ref } from "vue";
 import { useDialog, useMessage } from "naive-ui";
 import { db, session } from "../data/store";
@@ -25,7 +27,7 @@ function saveProject(values) {
   if (!props.rows.length) return message.warning('当前筛选范围没有企业，请调整筛选条件');
   const snapshot = industrySnapshot(props.rows, props.filters);
   const project = {
-    ...values, id: crypto.randomUUID(), owner: session.user.username, ownerName: session.user.name, createdAt: workspaceTime(), snapshot, versions: [],
+    ...values, id: randomId(), owner: session.user.username, ownerName: session.user.name, createdAt: workspaceTime(), snapshot, versions: [],
     chapters: [
       { id: 'scope', title: '一、研究范围与数据说明', content: `本报告覆盖当前筛选范围内 ${snapshot.enterprises.length} 家企业。数据所属年度：${[...new Set(snapshot.enterprises.map((row) => row.year))].join('、')}。企业数据、评价口径及材料来源详见引用清单，示例数据应在正式使用前核实。` },
       { id: 'status', title: '二、行业现状与清洁生产水平', content: '' },
@@ -46,7 +48,7 @@ function updateReferences() {
 function saveVersion() {
   const project = current.value;
   if (!project.title.trim()) return message.warning('请填写报告标题');
-  project.versions.push(copy({ id: crypto.randomUUID(), number: project.versions.length + 1, at: workspaceTime(), title: project.title, year: project.year, purpose: project.purpose, chapters: project.chapters, snapshot: project.snapshot }));
+  project.versions.push(copy({ id: randomId(), number: project.versions.length + 1, at: workspaceTime(), title: project.title, year: project.year, purpose: project.purpose, chapters: project.chapters, snapshot: project.snapshot }));
   message.success('已保存独立成果版本，仍可继续编辑草稿');
 }
 const html = computed(() => {

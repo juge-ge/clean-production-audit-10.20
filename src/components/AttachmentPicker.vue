@@ -1,4 +1,6 @@
 <script setup>
+import { randomId } from "../services/id.js";
+
 import { ref } from "vue";
 import { useMessage } from "naive-ui";
 import { saveFile, getFile, downloadBlob } from "../services/files";
@@ -27,7 +29,7 @@ async function upload(event) {
       continue;
     }
     try {
-      const id = crypto.randomUUID();
+      const id = randomId();
       await saveFile(id, file);
       props.data.documents.unshift({
         id,

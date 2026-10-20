@@ -1,4 +1,6 @@
 <script setup>
+import { randomId } from "../services/id.js";
+
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useMessage, useDialog } from "naive-ui";
@@ -80,7 +82,7 @@ function openCheck(row) {
   check.value = row
     ? clone(row)
     : {
-        id: crypto.randomUUID(),
+        id: randomId(),
         name: "",
         basis: "",
         operator: "≤",

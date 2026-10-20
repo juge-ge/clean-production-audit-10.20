@@ -1,4 +1,6 @@
 <script setup>
+import { randomId } from "../services/id.js";
+
 import { ref, computed, nextTick } from "vue";
 import { useMessage, useDialog } from "naive-ui";
 import { db, session } from "../data/store";
@@ -443,7 +445,7 @@ function downloadQuestionnaire() {
           size="small"
           @click="
             form.indicators.push({
-              id: crypto.randomUUID(),
+              id: randomId(),
               name: '',
               criterion: '',
               weight: 0,

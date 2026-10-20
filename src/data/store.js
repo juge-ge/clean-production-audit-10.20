@@ -1,3 +1,4 @@
+import { randomId } from "../services/id.js";
 import { reactive, watch } from "vue";
 import { accounts, seedEnterprise } from "./domain";
 import { upgradeEnterprise } from "./auditWorkflow";
@@ -45,4 +46,4 @@ export function enterpriseData(id) {
   const data = upgradeEnterprise(db.enterprises[id]);
   return db.demoPreset === "manual" ? data : applyApprovedDemo(data);
 }
-export const uid = () => crypto.randomUUID();
+export const uid = () => randomId();
