@@ -1,0 +1,38 @@
+export const experts = [
+  {
+    id: "ex1",
+    name: "周志远",
+    title: "正高级工程师",
+    organization: "省环境科学研究院（示例）",
+    specialty: "资源能源",
+    experience: "清洁生产审核、工业节能及能源管理",
+    city: "贵阳市",
+  },
+  {
+    id: "ex2",
+    name: "陈静",
+    title: "高级工程师",
+    organization: "环境技术研究中心（示例）",
+    specialty: "水污染防治",
+    experience: "工业废水处理、水资源管理与水平衡核查",
+    city: "遵义市",
+  },
+  {
+    id: "ex3",
+    name: "李文博",
+    title: "教授",
+    organization: "生态环境研究中心（示例）",
+    specialty: "工艺与装备",
+    experience: "酿造行业清洁生产与工艺设备评价",
+    city: "贵阳市",
+  },
+  {
+    id: "ex4",
+    name: "张宁",
+    title: "高级工程师",
+    organization: "绿色发展技术中心（示例）",
+    specialty: "固废与循环利用",
+    experience: "一般固废与危废管理、资源化利用",
+    city: "遵义市",
+  },
+];

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>清洁生产智慧平台 - 中国环境科学研究院</title>
+    <link rel="stylesheet" href="assets/portal.css">
+    <script src="assets/vendor/vue.global.prod.js"></script>
+    <style>
+        body { font-family: "Microsoft YaHei", "微软雅黑", -apple-system, BlinkMacSystemFont, sans-serif; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* 政府门户经典配色变量 */
+        :root {
+            --gov-primary: #0f4c7a;      /* 主深蓝 */
+            --gov-primary-dark: #0a3558;
+            --gov-accent: #c8181f;       /* 党政红点缀 */
+            --gov-green: #2b7a3d;        /* 环保绿 */
+            --gov-gold: #d4a017;
+        }
+
+        /* 顶部导航下拉动画 */
+        .nav-item:hover .nav-dropdown { display: block; }
+        .nav-dropdown {
+            display: none;
+            animation: fadeIn .18s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 滚动新闻 */
+        .marquee-wrap { overflow: hidden; }
+        .marquee-track {
+            display: flex;
+            gap: 3rem;
+            animation: marquee 40s linear infinite;
+            white-space: nowrap;
+        }
+        .marquee-wrap:hover .marquee-track { animation-play-state: paused; }
+        @keyframes marquee {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* 栏目标题左侧装饰条 */
+        .col-title::before {
+            content: "";
+            display: inline-block;
+            width: 4px;
+            height: 18px;
+            background: linear-gradient(180deg, #0f4c7a 0%, #2b7a3d 100%);
+            margin-right: 10px;
+            vertical-align: -3px;
+            border-radius: 2px;
+        }
+
+        /* 文本单行省略 */
+        .ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        /* 条目连接线 */
+        .dotted-list li {
+            border-bottom: 1px dashed #e5e7eb;
+        }
+        .dotted-list li:last-child { border-bottom: none; }
+
+        /* 入口按钮装饰 */
+        .entry-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .entry-card::after {
+            content: "";
+            position: absolute;
+            right: -40px;
+            top: -40px;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.08);
+        }
+        .entry-card::before {
+            content: "";
+            position: absolute;
+            right: 20px;
+            bottom: -30px;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.06);
+        }
+
+        /* 专题彩色装饰 */
+        .zt-card { transition: all .3s; }
+        .zt-card:hover { transform: translateY(-4px); box-shadow: 0 10px 24px -8px rgba(15,76,122,.35); }
+    </style>
+</head>
+<body class="bg-[#f4f6f8] text-slate-800 min-h-screen">
+<div id="app">
+
+    <!-- ============ 顶部工具条 ============ -->
+    <div class="bg-[#0a3558] text-white text-xs">
+        <div class="max-w-[1280px] mx-auto px-4 h-9 flex items-center justify-between">
+            <span class="opacity-80">欢迎访问清洁生产智慧平台 · 今天是 {{ today }}</span>
+            <ul class="flex items-center divide-x divide-white/20">
+                <!-- 移除了图 1 文字内容 -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- ============ 主头部：Logo + 站名 + 搜索 ============ -->
+    <header class="bg-white border-b border-slate-200">
+        <div class="max-w-[1280px] mx-auto px-4 py-6 flex items-center justify-between">
+            <div class="flex items-center gap-8">
+                <!-- 将图片 1 放置在页头 Logo 位置（即原图 2 位置） -->
+                <div class="h-16 flex items-center">
+                    <img src="图片1.png" alt="中国环境科学研究院" class="h-full object-contain">
+                </div>
+                <div class="border-l-2 border-slate-200 pl-8">
+                    <h1 class="text-3xl font-bold text-[#0f4c7a] tracking-wide">
+                        清洁生产智慧审核平台
+                    </h1>
+                </div>
+            </div>
+
+            <form class="flex items-stretch rounded-full overflow-hidden border-2 border-[#0f4c7a]/80 bg-white shadow-sm" onsubmit="event.preventDefault()">
+                <input type="text" placeholder="请输入您要查询的内容" class="w-72 px-5 py-2 text-sm outline-none placeholder:text-slate-400">
+                <button class="bg-[#0f4c7a] hover:bg-[#0a3558] text-white px-5 text-sm transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4 -mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    搜索
+                </button>
+            </form>
+        </div>
+    </header>
+
+    <!-- ============ 主导航 ============ -->
+    <nav class="bg-[#0f4c7a] text-white shadow-md sticky top-0 z-40">
+        <div class="max-w-[1280px] mx-auto px-4">
+            <ul class="flex items-stretch">
+                <li v-for="(n, idx) in navs" :key="idx" class="nav-item relative group">
+                    <a href="#" :class="['block px-8 py-4 text-[15px] font-medium transition-colors', idx===0 ? 'bg-[#c8181f]' : 'hover:bg-[#0a3558]']">
+                        {{ n.name }}
+                    </a>
+                    <div v-if="n.sub && n.sub.length" class="nav-dropdown absolute left-0 top-full bg-white text-slate-700 min-w-[180px] shadow-xl border-t-2 border-[#c8181f]">
+                        <a v-for="s in n.sub" :key="s" href="#" class="block px-5 py-2.5 text-sm hover:bg-[#0f4c7a] hover:text-white border-b border-slate-100 last:border-b-0">{{ s }}</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ============ 大 Banner ============ -->
+    <section class="relative h-[360px] overflow-hidden bg-slate-800">
+        <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" alt="环保概念图" class="absolute inset-0 w-full h-full object-cover opacity-70">
+        <div class="absolute inset-0 bg-gradient-to-r from-[#0a3558]/85 via-[#0f4c7a]/50 to-transparent"></div>
+        <div class="relative max-w-[1280px] mx-auto px-4 h-full flex flex-col justify-center">
+            <div class="text-amber-300 tracking-[0.3em] text-sm mb-3">INTELLIGENT CLEANER PRODUCTION PLATFORM</div>
+            <h2 class="text-white text-4xl md:text-5xl font-bold leading-snug drop-shadow-lg">
+                推动典型工业行业清洁生产改造
+            </h2>
+            <p class="text-white/85 mt-4 text-base max-w-xl">以科技攻生态之坚，以创新筑美丽根基——为绿色低碳发展提供智慧决策支撑。</p>
+            <div class="mt-8 flex gap-3">
+                <button class="w-3 h-3 rounded-full bg-amber-400"></button>
+                <button class="w-3 h-3 rounded-full bg-white/40 hover:bg-white/80"></button>
+                <button class="w-3 h-3 rounded-full bg-white/40 hover:bg-white/80"></button>
+                <button class="w-3 h-3 rounded-full bg-white/40 hover:bg-white/80"></button>
+                <button class="w-3 h-3 rounded-full bg-white/40 hover:bg-white/80"></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ 重要通知滚动条 ============ -->
+    <section class="bg-white border-b border-slate-200 shadow-sm">
+        <div class="max-w-[1280px] mx-auto px-4 h-12 flex items-center">
+            <div class="shrink-0 flex items-center gap-2 pr-5 mr-5 border-r border-slate-200">
+                <span class="inline-block w-2 h-2 rounded-full bg-[#c8181f] animate-pulse"></span>
+                <span class="font-bold text-[#c8181f] text-sm">重要通知：</span>
+            </div>
+            <div class="marquee-wrap flex-1">
+                <div class="marquee-track text-sm text-slate-600">
+                    <template v-for="loop in 2" :key="loop">
+                        <a v-for="item in notices" :key="loop+'-'+item.id" href="#" class="hover:text-[#0f4c7a] transition-colors">
+                            · {{ item.title }} <span class="text-slate-400 ml-2">[{{ item.date }}]</span>
+                        </a>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ Page1 : 大图轮播 + 要闻 + 通知公告 ============ -->
+    <section class="max-w-[1280px] mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- 左侧：主图 -->
+        <div class="lg:col-span-2 bg-white rounded shadow-sm overflow-hidden">
+            <div class="relative h-[340px] group">
+                <img src="assets/hero-slide-1.png" alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                    <div class="flex justify-between items-end">
+                        <h3 class="text-white text-lg font-semibold">推动典型工业行业清洁生产改造</h3>
+                        <div class="flex gap-2">
+                            <button class="w-2.5 h-2.5 rounded-full bg-amber-400"></button>
+                            <button class="w-2.5 h-2.5 rounded-full bg-white/50"></button>
+                            <button class="w-2.5 h-2.5 rounded-full bg-white/50"></button>
+                            <button class="w-2.5 h-2.5 rounded-full bg-white/50"></button>
+                            <button class="w-2.5 h-2.5 rounded-full bg-white/50"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 下方小动态 -->
+            <ul class="dotted-list p-5 space-y-3">
+                <li v-for="(item, i) in news" :key="item.id" class="flex justify-between items-center pb-3 cursor-pointer group">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <span class="text-slate-700 group-hover:text-[#0f4c7a] ellipsis">{{ item.title.replace(/^·\s*/, '') }}</span>
+                    </div>
+                    <span class="text-slate-400 text-xs shrink-0 ml-3">04-2{{ i+1 }}</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 右侧：通知公告 -->
+        <div class="bg-white rounded shadow-sm flex flex-col">
+            <div class="flex border-b-2 border-slate-100 px-5">
+                <div class="py-3.5 text-base font-bold text-[#0f4c7a] relative">
+                    通知公告
+                    <span class="absolute left-1/2 -bottom-[2px] -translate-x-1/2 w-12 h-[2px] bg-[#c8181f]"></span>
+                </div>
+                <div class="flex-1"></div>
+                <a href="#" class="self-center text-xs text-slate-400 hover:text-[#0f4c7a]">更多 +</a>
+            </div>
+
+            <ul class="dotted-list flex-1 p-5 space-y-3.5">
+                <li v-for="item in notices" :key="item.id" class="pb-3 cursor-pointer group">
+                    <div class="flex items-start gap-3">
+                        <div class="shrink-0 w-12 text-center border-r border-slate-200 pr-2">
+                            <div class="text-[#c8181f] text-xl font-bold leading-none">{{ item.date.split('-')[1] }}</div>
+                            <div class="text-slate-400 text-[11px] mt-0.5">2026-{{ item.date.split('-')[0] }}</div>
+                        </div>
+                        <span class="text-sm text-slate-700 group-hover:text-[#0f4c7a] leading-snug">{{ item.title }}</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ============ Page2 : 动态 / 政策 / 案例 + 入口按钮 ============ -->
+    <section class="max-w-[1280px] mx-auto px-4 pb-8 grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div class="bg-white rounded shadow-sm p-5">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
+                <h3 class="col-title text-lg font-bold text-slate-800">动态信息</h3>
+                <a href="#" class="text-xs text-slate-400 hover:text-[#0f4c7a]">更多 ></a>
+            </div>
+            <ul class="dotted-list space-y-3">
+                <li v-for="item in news" :key="item.id" class="pb-2.5 text-sm text-slate-700 hover:text-[#0f4c7a] cursor-pointer ellipsis">
+                    <span class="text-[#0f4c7a] mr-1">◆</span>{{ item.title.replace(/^·\s*/, '') }}
+                </li>
+            </ul>
+        </div>
+
+        <div class="bg-white rounded shadow-sm p-5">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
+                <h3 class="col-title text-lg font-bold text-slate-800">政策法规</h3>
+                <a href="#" class="text-xs text-slate-400 hover:text-[#0f4c7a]">更多 ></a>
+            </div>
+            <ul class="dotted-list space-y-3">
+                <li v-for="item in policies" :key="item.id" class="pb-2.5 text-sm text-slate-700 hover:text-[#0f4c7a] cursor-pointer ellipsis">
+                    <span class="text-[#c8181f] mr-1">◆</span>{{ item.title.replace(/^·\s*/, '') }}
+                </li>
+            </ul>
+        </div>
+
+        <div class="bg-white rounded shadow-sm p-5">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
+                <h3 class="col-title text-lg font-bold text-slate-800">典型案例</h3>
+                <a href="#" class="text-xs text-slate-400 hover:text-[#0f4c7a]">更多 ></a>
+            </div>
+            <ul class="dotted-list space-y-3">
+                <li v-for="item in cases" :key="item.id" class="pb-2.5 text-sm text-slate-700 hover:text-[#0f4c7a] cursor-pointer ellipsis">
+                    <span class="text-[#2b7a3d] mr-1">◆</span>{{ item.title.replace(/^·\s*/, '') }}
+                </li>
+            </ul>
+        </div>
+
+        <!-- 快捷入口 -->
+        <div class="flex flex-col gap-4">
+            <button onclick="parent.postMessage({type:'cp-portal-entry',portal:'government'},location.origin)" class="entry-card flex-1 min-h-[108px] bg-gradient-to-br from-[#0f4c7a] to-[#1b6fa8] text-white rounded shadow-md hover:shadow-xl transition-all flex flex-col justify-center items-start px-6 group">
+                <div class="flex items-center gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-amber-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 21v-6a2 2 0 012-2h4m6 8v-8a2 2 0 012-2h2a2 2 0 012 2v8M9 21V9a2 2 0 012-2h2a2 2 0 012 2v12M3 21h18"/></svg>
+                    <span class="text-xl font-bold tracking-wider group-hover:translate-x-1 transition-transform">预审核智慧平台</span>
+                </div>
+                <span class="text-sm text-blue-100 mt-1.5">政府端管理入口 →</span>
+            </button>
+            <button onclick="parent.postMessage({type:'cp-portal-entry',portal:'enterprise'},location.origin)" class="entry-card flex-1 min-h-[108px] bg-gradient-to-br from-[#2b7a3d] to-[#3c9c52] text-white rounded shadow-md hover:shadow-xl transition-all flex flex-col justify-center items-start px-6 group">
+                <div class="flex items-center gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-amber-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-6h13M9 11L5 7m0 0l4-4M5 7h14"/></svg>
+                    <span class="text-xl font-bold tracking-wider group-hover:translate-x-1 transition-transform">预审核智慧平台</span>
+                </div>
+                <span class="text-sm text-emerald-100 mt-1.5">企业端填报入口 →</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- ============ Page3 : 清洁生产技术集成 + 智慧决策 ============ -->
+    <section class="bg-white border-y border-slate-200 py-10">
+        <div class="max-w-[1280px] mx-auto px-4">
+            <div class="flex items-center justify-between mb-6 border-b-2 border-[#0f4c7a] pb-3">
+                <h2 class="text-2xl font-bold text-[#0f4c7a]">
+                    科技成果
+                    <span class="text-sm text-slate-400 font-normal ml-2 tracking-widest">SCIENTIFIC ACHIEVEMENTS</span>
+                </h2>
+                <a href="#" class="text-sm text-slate-500 hover:text-[#c8181f]">更多 +</a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 技术集成 -->
+                <div class="border border-slate-200 rounded overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="bg-gradient-to-r from-[#0f4c7a] to-[#1b6fa8] text-white px-5 py-3 flex justify-between items-center">
+                        <h3 class="font-bold flex items-center gap-2">
+                            <span class="w-1 h-4 bg-amber-300 inline-block"></span>
+                            清洁生产技术集成
+                        </h3>
+                        <a href="#" class="text-xs text-blue-100 hover:text-white">更多 ></a>
+                    </div>
+                    <ul class="dotted-list p-5 space-y-3">
+                        <li v-for="(item, i) in techIntegration" :key="item.id" class="pb-3 flex justify-between items-center cursor-pointer group">
+                            <span class="text-sm text-slate-700 group-hover:text-[#0f4c7a] ellipsis pr-3">
+                                {{ item.title }}
+                            </span>
+                            <span class="text-xs text-slate-400 shrink-0">2026-04</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 智慧决策 -->
+                <div class="border border-slate-200 rounded overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="bg-gradient-to-r from-[#2b7a3d] to-[#3c9c52] text-white px-5 py-3 flex justify-between items-center">
+                        <h3 class="font-bold flex items-center gap-2">
+                            <span class="w-1 h-4 bg-amber-300 inline-block"></span>
+                            清洁生产智慧决策
+                        </h3>
+                        <a href="#" class="text-xs text-emerald-100 hover:text-white">更多 ></a>
+                    </div>
+                    <ul class="dotted-list p-5 space-y-3">
+                        <li v-for="(item, i) in smartDecision" :key="item.id" class="pb-3 flex justify-between items-center cursor-pointer group">
+                            <span class="text-sm text-slate-700 group-hover:text-[#2b7a3d] ellipsis pr-3">
+                                {{ item.title }}
+                            </span>
+                            <span class="text-xs text-slate-400 shrink-0">2026-04</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ 专题专栏 ============ -->
+    <section class="max-w-[1280px] mx-auto px-4 py-10">
+        <div class="flex items-center justify-between mb-6 border-b-2 border-[#0f4c7a] pb-3">
+            <h2 class="text-2xl font-bold text-[#0f4c7a]">
+                专题专栏
+                <span class="text-sm text-slate-400 font-normal ml-2 tracking-widest">TOPICS & COLUMNS</span>
+            </h2>
+            <a href="#" class="text-sm text-slate-500 hover:text-[#c8181f]">更多 +</a>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <a v-for="(z, i) in topics" :key="i" href="#"
+               class="zt-card block bg-white border border-slate-200 rounded shadow-sm overflow-hidden">
+                <div :class="['h-24 flex items-center justify-center text-white text-lg font-bold bg-gradient-to-br', z.color]">
+                    {{ z.name }}
+                </div>
+                <div class="px-3 py-2 text-xs text-slate-500 text-center">{{ z.desc }}</div>
+            </a>
+        </div>
+    </section>
+
+    <!-- ============ 底部：文字信息恢复（已移除多余图片） ============ -->
+    <footer class="bg-[#0a3558] text-slate-300">
+        <div class="border-b border-white/10">
+            <div class="max-w-[1280px] mx-auto px-4 py-5 flex items-start gap-4">
+                <span class="shrink-0 text-white font-bold pt-1">友情链接：</span>
+                <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+                    <li v-for="l in links" :key="l"><a href="#" class="hover:text-amber-300 transition-colors">{{ l }}</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-[1280px] mx-auto px-4 py-6 text-center text-sm leading-loose">
+            <p>
+                <span class="mx-2">版权所有：中国环境科学研究院清洁生产与循环经济研究中心</span>
+                <span class="mx-2">地址：北京市朝阳区安外北苑大羊坊8号</span>
+                <span class="mx-2">邮编：100012</span>
+                <span class="mx-2">电话：010-84915193</span>
+            </p>
+            <p class="text-slate-400 text-xs mt-1">
+                <span class="mx-2">ICP备案编号：</span>
+                <span class="mx-2">京公网安备 </span>
+                <span class="mx-2">技术支持：中国环境科学研究院清洁生产与循环经济研究中心</span>
+            </p>
+        </div>
+    </footer>
+
+</div>
+
+<script>
+    const { createApp, ref, computed } = Vue;
+
+    createApp({
+        setup() {
+            const today = new Date().toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' });
+
+            const navs = ref([
+                { name: '首页', sub: [] },
+                { name: '机构概况', sub: ['学会简介', '组织结构', '专业委员会', '大事记', '联系我们'] },
+                { name: '能力建设', sub: ['清洁生产审核', '技术培训', '评价指标体系', '标准制定'] },
+                { name: '会议宣传', sub: ['学术会议', '行业论坛', '宣传报道'] },
+                { name: '国际合作', sub: ['合作项目', '国际交流', '海外专家'] }
+            ]);
+
+            const notices = ref([
+                { id: 1, title: '关于开展2026年度清洁生产审核创新试点申报的通知', date: '04-20' },
+                { id: 2, title: '《钢铁行业超低排放评价技术规范》征求意见稿发布', date: '04-18' },
+                { id: 3, title: '学会关于举办第十二届工业减排与绿色发展论坛的公告', date: '04-15' }
+            ]);
+
+            const news = ref([
+                { id: 1, title: '· 湖泊沉积物磷形态转化研究取得重要进展' },
+                { id: 2, title: '· 某大型钢企烧结工序完成超低排放验收' },
+                { id: 3, title: '· 新一代大语言模型(LLM)引入平台审核体系' }
+            ]);
+
+            const policies = ref([
+                { id: 1, title: '· 中华人民共和国清洁生产促进法(2012修正)' },
+                { id: 2, title: '· 深入打好重污染天气消除攻坚战行动方案' },
+                { id: 3, title: '· 重点行业清洁生产评价指标体系编制通则' }
+            ]);
+
+            const cases = ref([
+                { id: 1, title: '· 华菱湘钢：高炉热风炉烟气脱硫脱硝协同改造' },
+                { id: 2, title: '· 某焦化厂：VOCs无组织排放全过程深度治理' },
+                { id: 3, title: '· 同济大学产学研合作：智慧工厂节能寻优系统' }
+            ]);
+
+            const techIntegration = ref([
+                { id: 1, title: '基于物质流分析(MFA)的钢铁固废减量技术' },
+                { id: 2, title: '烧结工序超低排放改造与技术评价规范' },
+                { id: 3, title: '高炉热风炉烟气脱硫脱硝协同优化方案' },
+                { id: 4, title: '多模态OCR在清洁生产数据采集中的应用' }
+            ]);
+
+            const smartDecision = ref([
+                { id: 1, title: '基于DeerFlow架构的智慧审核决策模型' },
+                { id: 2, title: 'WRF-Chem模拟在长株潭城市群减排决策中的应用' },
+                { id: 3, title: '图注意力网络(GAT)与随机森林融合评估系统' },
+                { id: 4, title: '大语言模型(LLM)智能辅助生成审核报告' }
+            ]);
+
+            const topics = ref([
+                { name: '学习贯彻党的二十大精神', desc: '深入学习党的二十大报告', color: 'from-[#c8181f] to-[#8a0f14]' },
+                { name: '美丽中国建设',           desc: '生态文明建设新实践',   color: 'from-[#2b7a3d] to-[#1c4f28]' },
+                { name: '双碳行动专栏',           desc: '碳达峰碳中和科技支撑', color: 'from-[#0f4c7a] to-[#0a3558]' },
+                { name: '碳足迹因子库',           desc: '碳足迹智能服务平台',   color: 'from-[#d4a017] to-[#a67b10]' }
+            ]);
+
+            const links = ref([
+                '中华人民共和国生态环境部', '中国环境监测总站', '中国环境科学研究院', '中国环境报社',
+                '生态环境部环境规划院', '中华环境保护基金会', '机动车环保网', '中韩环境合作中心',
+                '国家自然科学基金委员会', '科学技术部'
+            ]);
+
+            return {
+                today, navs,
+                notices, news, policies, cases,
+                techIntegration, smartDecision, topics, links
+            };
+        }
+    }).mount('#app');
+</script>
+</body>
+</html>
